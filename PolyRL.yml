@@ -1,0 +1,24 @@
+name: PolyRL
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - tensorflow
+  - shap
+  - seaborn
+  - rdkit 
+  - flake8
+  - pytest
+  - pytest-cov
+  - tqdm
+  - pip
+  - pip:
+      - wandb
+      - hydra-core
+      - git+https://github.com/pytorch/rl.git@83a7a57daee4b76b249dbc0ce2231f163f2a1482
+      - git+https://github.com/pytorch/tensordict.git@c11024e0db864bd8487c68e3d0cf5e100fc078312

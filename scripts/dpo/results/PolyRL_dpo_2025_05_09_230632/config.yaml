@@ -1,0 +1,21 @@
+agent_name: dpo
+beta: 0.1
+custom_model_factory: null
+custom_task: RF_BLR_fing
+eps: 1.0e-08
+experiment_name: PolyRL
+log_dir: results
+logger_backend: null
+lr: 0.0001
+model: gpt2
+molscore_mode: null
+molscore_task: null
+num_envs: 64
+num_epochs: 1
+num_mini_batches: 1
+prompt: null
+save_dir: results/PolyRL_dpo_2025_05_09_230632
+seed:
+- 101
+total_smiles: 20000
+weight_decay: 0.0

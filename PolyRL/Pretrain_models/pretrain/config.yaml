@@ -1,0 +1,29 @@
+# Logging configuration
+experiment_name: PolyRL
+agent_name: pretrain_lstm
+logger_backend: null # csv, wandb, tensorboard, or null
+seed: 101
+log_frequency: 500
+
+# Dataset configuration
+train_dataset_path: enhanced_datasetD.txt
+tokenizer: SMILESTokenizerEnamine # SMILESTokenizerChEMBL, SMILESTokenizerEnamine, DeepSMILESTokenizer, SELFIESTokenizer, AISTokenizer, SAFETokenizer, SmiZipTokenizer 
+custom_vocabulary_path: enamine_real_vocabulary.txt
+recompute_dataset: True # if False and dataset_log_dir contains a dataset, it will be used
+dataset_log_dir: /tmp/pretrain # if recomputing dataset, save it here
+
+# Model configuration
+model: gru # gru, lstm, gpt2, mamba or llama2
+custom_model_factory: null # Path to a custom model factory (e.g. my_module.create_model)
+model_log_dir: test #/tmp/pretrain # save model here
+
+# Training configuration
+lr: 0.001
+lr_scheduler: StepLR
+lr_scheduler_kwargs:
+  step_size: 500
+  gamma: 0.97 # 1.0 = no decay
+epochs: 50
+batch_size: 64
+randomize_smiles: True # Sample a random variant during training, therefore, for 10-fold augmentation on a dataset for 5 epochs, do 10*5=50 epochs.
+num_test_smiles: 100
