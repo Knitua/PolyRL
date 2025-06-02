@@ -146,7 +146,7 @@ All pretrained generators have been integrated into the reinforcement learning f
 To use your newly pretrained model, modify the corresponding interface in `PolyRL/models/__init__.py`.
 
 To switch between different types of generators within the RL framework, adjust the relevant parameters in the reinforcement learning YAML configuration file.  
-Refer to: `Section 4. Polymer Molecule Generation`.
+Refer to: `Section 4. Reinforce Learning Algorithm`.
 
 <br/>
 
