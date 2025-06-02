@@ -9,8 +9,6 @@ setup(
         "PolyRL": [
             "priors/**",
             "scripts/**/config_denovo.yaml",
-            "scripts/**/config_fragment.yaml",
-            "scripts/**/config_scaffold.yaml",
         ]
     },
     scripts=[
@@ -18,8 +16,6 @@ setup(
         "scripts/ahc/ahc.py",
         "scripts/ppo/ppo.py",
         "scripts/reinvent/reinvent.py",
-        "scripts/pretrain/pretrain_single_node.py",
-        "scripts/pretrain/pretrain_distributed.py",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

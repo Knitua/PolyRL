@@ -1,12 +1,11 @@
-
 # PolyRL: Reinforcement Learning-Guided Polymer Generation for Multi-Objective Gas Membrane Discovery
 
 [![license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Acellera/PolyRL-open/blob/main/LICENSE)
 [![python](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11-blue)](https://www.python.org/downloads/)
 
-
-
 ---
+
+![PolyRL Framework](images/framework.png)
 
 ## Overview
 
@@ -14,24 +13,21 @@
 
 The framework supports both pretraining and goal-directed generation, enabling flexible application to a wide range of molecular design tasks.
 
-
 ---
 
 ## Key Features
 
+- \***\*RL Algorithms:\*\***
+  PolyRL offers task optimization with various reinforcement learning algorithms such as [Proximal Policy Optimization (PPO)][1], [Advantage Actor-Critic (A2C)][2], [Reinforce][3], [Reinvent][4], and [Augmented Hill-Climb (AHC)][5], and [Direct Preference Optimization (DPO)][8].
 
-- __**RL Algorithms:**__ 
-PolyRL offers task optimization with various reinforcement learning algorithms such as [Proximal Policy Optimization (PPO)][1], [Advantage Actor-Critic (A2C)][2], [Reinforce][3], [Reinvent][4], and [Augmented Hill-Climb (AHC)][5], [Direct Preference Optimization (DPO)][8] and Hill Climbing.
+- \***\*Generative Models:\*\*** PolyRL contains pre-trained models including Gated Recurrent Unit (GRU), Long Short-Term Memory (LSTM), GPT2, LLaMA2.
 
-- __**Pre-trained Models:**__ PolyRL contains pre-trained models including Gated Recurrent Unit (GRU), Long Short-Term Memory (LSTM), GPT-2, LLama2.
-
-- __**Scoring Functions :**__ 
-
-
+- \***\*Predictive Models :\*\*** Used to evaluate key gas separation properties, including CO₂ and N₂ permeability.
 
 ---
 
 ## Contents
+
 1. **Installation**
    - 1.1. Conda environment and required dependencies
    - 1.2. Install PolyRL
@@ -42,21 +38,19 @@ PolyRL offers task optimization with various reinforcement learning algorithms s
 3. **Scoring Models**
    - 3.1. Dataset
    - 3.2. Run Pretraining Script
-   - 3.3. About Scoring Function
-4. **Polymer Molecule Generation**
-   
+4. **Reinforce Learning Algorithm**
 5. **SHAP Analysis**
-6. **Visualization of Results**
-
-
+6. **Others**
+   - 6.1. Visualization
+   - 6.2. MD Simulations
 
 ---
-## Main Text
 
+## Main Text
 
 ## 1. Installation
 
-### 1.1. Create Conda Environment
+### 1.1 Create Conda Environment
 
 To ensure consistent and reproducible environments, we provide a Conda environment YAML file.
 
@@ -66,6 +60,7 @@ conda activate PolyRL
 ```
 
 This will install:
+
 - Python 3.10
 - TensorFlow, RDKit, scikit-learn, SHAP, and other ML packages
 - TorchRL and TensorDict from fixed Git commits
@@ -81,7 +76,7 @@ See [PyTorch's official installation guide](https://pytorch.org/get-started/loca
 
 ---
 
-### 1.2. Install PolyRL Package
+### 1.2 Install PolyRL Package
 
 Clone and install the PolyRL package:
 
@@ -95,53 +90,56 @@ Use `pip install ./` if you do not plan to modify the source code.
 
 ---
 
-### 1.3. Verify Installation
+### 1.3 Verify Installation
 
 Run the following command to check that installation was successful:
 
 ```bash
 python -c "import torch; import torchrl; import tensordict; print('Installed successfully.')"
 ```
+
 <br/>
 
 ## 2. Generators
 
-### 2.1. Dataset
+### 2.1 Dataset
 
 We constructed two types of SMILES datasets for pretraining, each targeting polymers with different structural characteristics:
 
-- **datasetB**: Contains approximately 1 million linear polymer SMILES, each with two `*` atoms representing polymerization sites. This dataset is used to train generators for linear polymers.  
-  - File path: `PolyRL/Pretrain_models/dataset/datasetB.csv`  
-  - Construction method: XXX
+- **datasetB**: Contains approximately 1 million linear polymer SMILES, each with two `*` atoms representing polymerization sites. This dataset is used to train generators for linear polymers.
 
-- **enhanced_datasetD**: Contains around 60,000 bridged polymer SMILES, each with four `*` atoms. It is used to train generators for more complex topologies, such as dendritic or bridged polymers.  
-  - File path: `PolyRL/Pretrain_models/dataset/enhanced_datasetD.csv`  
-  - Construction method: XXX
+  - File path: `PolyRL/Pretrain_models/dataset/datasetB.csv`
+
+- **enhanced_datasetD**: Contains around 60,000 bridged polymer SMILES, each with four `*` atoms. It is used to train generators for more complex topologies, such as dendritic or bridged polymers.
+  - File path: `PolyRL/Pretrain_models/dataset/enhanced_datasetD.csv`
 
 Both datasets are in `.csv` format, with one SMILES per line and no header.
 
 ---
 
-### 2.2. Run Pretraining Script
+### 2.2 Run Pretraining Script
 
 We provide pretraining scripts for different generator architectures, located under `PolyRL/Pretrain_models/`.
 
 Use the following commands to pretrain GPT-2 and LLaMA2 architectures:
 
 ```bash
-python PolyRL/Pretrain_models/gpt2/gpt2_pretrain.py 
+python PolyRL/Pretrain_models/gpt2/gpt2_pretrain.py
 python PolyRL/Pretrain_models/llama2/llama2_pretrain.py
 ```
+
 For GRU and LSTM architectures, we provide a unified script `pretrain_single_node.py` that allows model selection via the configuration file. Simply set the model field to gru or lstm in config.yaml to start training:
 
 ```bash
 python pretrain/pretrain_single_node.py
 python pretrain/pretrain_distributed.py
 ```
+
 The difference between the two commands lies in whether distributed training across multiple machines/GPUs is enabled.
 
 ---
-### 2.3. Direct Use of Generators
+
+### 2.3 Direct Use of Generators
 
 All pretrained generators have been integrated into the reinforcement learning framework and are stored under `PolyRL/priors/`.
 
@@ -152,25 +150,22 @@ Refer to: `Section 4. Polymer Molecule Generation`.
 
 <br/>
 
-
 ## 3. Scoring Models
 
-
-### 3.1. Dataset
+### 3.1 Dataset
 
 The data used in this work is derived from the benchmark dataset published by [Yang et al.](https://www.science.org/doi/10.1126/sciadv.abn9545), which supports machine learning applications for polymer membrane design.
 
-- `datasetA_imputed_all.csv` contains SMILES strings and their corresponding gas permeability values.  
+- `datasetA_imputed_all.csv` contains SMILES strings and their corresponding gas permeability values.
 - `datasets/datasetAX_fing.csv` contains molecular fingerprints computed from SMILES after grouping and averaging duplicate entries by `.groupby('Smiles').mean()`.
 
+### 3.2 Pretraining Process
 
-### 3.2. Pretraining Process
+The scoring model is formulated as a regression task that maps molecular fingerprints to gas permeability values. Trained models serve as surrogate property predictors and are used as scoring functions during reinforcement learning.
 
-The scoring model is formulated as a regression task that maps molecular fingerprints to gas permeability values.  Trained models serve as surrogate property predictors and are used as scoring functions during reinforcement learning.
-
-- **Input features**: Morgan fingerprints  
-- **Output labels**: CO₂ and N₂ permeability  
-- **Supported models**: Random Forest (RF), Support Vector Machine (SVM)  
+- **Input features**: Morgan fingerprints
+- **Output labels**: CO₂ and N₂ permeability
+- **Supported models**: Random Forest (RF), Support Vector Machine (SVM)
 - **Evaluation metrics**: R², MAE, MSE, RMSE
 
 To start training, run the following command:
@@ -179,22 +174,20 @@ To start training, run the following command:
 python Scoring_models/Train.py --model 'RF'
 python Scoring_models/Train.py --model 'SVM'
 ```
+
 To generate the fingerprint matrix for a given dataset (e.g., `datasetX.csv`), run the following command:
+
 ```bash
 python Scoring_models/Generate_MFF.py --dataset 'datasetX'
 ```
-### 3.3. About Scoring Function
-
 
 <br/>
 
-## 4. **Polymer Molecule Generation**
+## 4. **Reinforce Learning Algorithm**
 
-
-PolyRL has multiple RL algorithms available, each in a different directory within the `PolyRL/scripts` directory. 
+PolyRL has multiple RL algorithms available, each in a different directory within the `PolyRL/scripts` directory.
 
 Each algorithm is associated with a dedicated YAML configuration file (e.g., `config_denovo.yaml`) located in the same directory as the training script. You can modify this file to customize training parameters as well as to select different types of generator architectures.
-
 
 To initiate training and generate polymer SMILES with different RL strategies, run one of the following commands:
 
@@ -205,31 +198,68 @@ python scripts/ppo/ppo.py --config-name config_denovo
 python scripts/reinvent/reinvent.py --config-name config_denovo
 python scripts/ahc/ahc.py --config-name config_denovo
 python scripts/dpo/dpo.py --config-name config_denovo
-python scripts/hill_climb/hill_climb.py --config-name config_denovo
 ```
+
 The generated molecules and training logs are saved in the `result/` directory under the corresponding script path. For example, when running:
+
 ```bash
 python scripts/reinvent/reinvent.py --config-name config_denovo
 ```
+
 The outputs will be saved in:
+
 ```bash
 scripts/reinvent/result/
 ```
+
 Each row contains a generated polymer and its predicted properties at a given training step, including the SMILES string, overall reward score, predicted permeability, and selectivity.
 
-
-For visualization and performance analysis of the generated polymer libraries, including score progression over training iterations, Robeson plots, and functional group contribution analysis, refer to `Section 6. Visualization of Results`.
+For visualization and performance analysis of the generated polymer libraries, including score progression over training iterations and Robeson plots, refer to `Section 6.1 Visualization`.
 
 <br/>
 
 ## 5. SHAP Analysis
 
+SHAP values can be computed to interpret how individual molecular fingerprint features contribute to the predicted permeability of CO₂ and N₂. This analysis helps identify key structural motifs associated with high-performing polymer candidates.
+
+To run the analysis:
+
+```bash
+python SHAP/SHAP.py
+```
+
 <br/>
 
-## 6. Visualization of Results
+## 6. Others
 
+### 6.1 Visualization
 
+PolyRL provides visualization tools to assess reinforcement learning performance and molecule generation quality. It clearly depicts the relationship between predicted CO₂ permeability and CO₂/N₂ selectivity, and indicates whether the generated polymers surpass the Robeson upper bound.
 
+![RL result](images/reinvent.png)
+
+### 6.2 MD Simulations
+
+To further validate the gas separation performance of top-ranked polymer candidates, molecular dynamics (MD) simulations are performed on selected molecules:
+All simulation files, including:
+
+- `.xtc` trajectory files
+- `.gro` topology structures
+- analysis scripts and output data
+
+are available at the following link:
+👉 [MD Simulation Results and Scripts](https://drive.google.com/drive/folders/1SABBZeD_d2LZWPmy8IrsuWSH8Ril-634?usp=drive_link)
+
+---
+
+## Acknowledgements
+
+This project was inspired and supported by several excellent open-source efforts. We would like to acknowledge the following repositories:
+
+- [acegen-open](https://github.com/Acellera/acegen-open): for providing a foundation in reinforcement learning-driven molecule generation and training workflows.
+- [PolymerGasMembraneML](https://github.com/jsunn-y/PolymerGasMembraneML): for valuable datasets and baseline models in polymer gas separation prediction.
+
+We sincerely thank the authors of these works for their contributions to the community.
 
 [1]: https://arxiv.org/abs/1707.06347
 [2]: https://arxiv.org/abs/1602.01783
@@ -239,7 +269,3 @@ For visualization and performance analysis of the generated polymer libraries, i
 [6]: https://arxiv.org/pdf/2206.12411.pdf
 [7]: https://arxiv.org/abs/2007.03328
 [8]: https://arxiv.org/abs/2305.18290
-
-
-
-

@@ -58,7 +58,6 @@ def train(args):
         Y_pred_train = scaler.inverse_transform(Y_pred_train)
         Y_pred_test = model.predict((X_test))
         Y_pred_test = scaler.inverse_transform(Y_pred_test)
-         # 🔽 加入 R² 打印
         r2_train = r2_score(Y_train, Y_pred_train)
         r2_test = r2_score(Y_test, Y_pred_test)
 
@@ -95,7 +94,6 @@ def train(args):
 
     if args.model == 'SVM':
         print('Training SVM model...')
-        # 非指纹输入，使用常规RBF核'''
         print("Using RBF kernel for descriptor features.")
         base_model = SVR(kernel='rbf', C=10, epsilon=0.005 ,gamma='scale')
         model = MultiOutputRegressor(base_model)
@@ -106,7 +104,6 @@ def train(args):
         Y_pred_train = scaler.inverse_transform(model.predict(X_train))
         Y_pred_test = scaler.inverse_transform(model.predict(X_test))
 
-        # 性能评估
         r2_train = r2_score(Y_train, Y_pred_train, multioutput='raw_values')
         r2_test = r2_score(Y_test, Y_pred_test, multioutput='raw_values')
 
@@ -124,7 +121,6 @@ def train(args):
             print(f"  MSE:Train = {mse_train:.4f}, Test = {mse_test:.4f}")
             print(f"  RMSE:Train = {rmse_train:.4f}, Test = {rmse_test:.4f}")
 
-        # 保存模型
         maindirectory = os.getcwd() + '/new_models/SVM'
         if not os.path.exists(maindirectory):
             os.mkdir(maindirectory)

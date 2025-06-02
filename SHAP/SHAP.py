@@ -15,23 +15,19 @@ def SHAP():
     X_df = pd.read_csv(os.getcwd() + '/datasets/high_score_molecules_X_fing.csv')
     os.chdir(maindirectory)
 
-    # 获取 X 数据并标准化（若需要）
     X = np.array(X_df)
 
-    # 加载 RF 模型
     filename = modelname + '.sav'
     model = pickle.load(open(filename, 'rb'))
 
-    # SHAP 值计算
     background = X
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(background)
 
     print("shap_values shape:", np.shape(shap_values))
 
-    # 转置为 (n_outputs, n_samples, n_features)
     shap_values = np.transpose(shap_values, (2, 0, 1))
-    Columns = ['N2', 'CO2']  # 根据你的模型输出顺序设定
+    Columns = ['N2', 'CO2']  
     feature_ids = list(X_df.columns)
 
     for i in range(len(shap_values)):
