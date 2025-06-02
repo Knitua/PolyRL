@@ -17,12 +17,12 @@ The framework supports both pretraining and goal-directed generation, enabling f
 
 ## Key Features
 
-- \***\*RL Algorithms:\*\***
+- **RL Algorithms:**
   PolyRL offers task optimization with various reinforcement learning algorithms such as [Proximal Policy Optimization (PPO)][1], [Advantage Actor-Critic (A2C)][2], [Reinforce][3], [Reinvent][4], and [Augmented Hill-Climb (AHC)][5], and [Direct Preference Optimization (DPO)][8].
 
-- \***\*Generative Models:\*\*** PolyRL contains pre-trained models including Gated Recurrent Unit (GRU), Long Short-Term Memory (LSTM), GPT2, LLaMA2.
+- **Generative Models:** PolyRL contains pre-trained models including Gated Recurrent Unit (GRU), Long Short-Term Memory (LSTM), GPT2, LLaMA2.
 
-- \***\*Predictive Models :\*\*** Used to evaluate key gas separation properties, including CO₂ and N₂ permeability.
+- **Predictive Models :** Used to evaluate key gas separation properties, including CO₂ and N₂ permeability.
 
 ---
 
