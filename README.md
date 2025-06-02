@@ -131,8 +131,8 @@ python PolyRL/Pretrain_models/llama2/llama2_pretrain.py
 For GRU and LSTM architectures, we provide a unified script `pretrain_single_node.py` that allows model selection via the configuration file. Simply set the model field to gru or lstm in config.yaml to start training:
 
 ```bash
-python pretrain/pretrain_single_node.py
-python pretrain/pretrain_distributed.py
+python PolyRL/Pretrain_models/pretrain/pretrain_single_node.py
+python PolyRL/Pretrain_models/pretrain/pretrain_distributed.py
 ```
 
 The difference between the two commands lies in whether distributed training across multiple machines/GPUs is enabled.
