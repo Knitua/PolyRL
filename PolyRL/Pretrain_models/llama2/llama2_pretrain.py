@@ -8,13 +8,13 @@ from mytokenizers import SMILESTokenizerEnamine
 from llama2 import define_llama2_configuration, Llama2
 from torch.utils.data import Dataset, DataLoader, default_collate
 
-# ====== Step 1: Load Vocabulary ======
+# Step 1: Load Vocabulary ======
 def load_vocabulary(vocab_path: str) -> List[str]:
     with open(vocab_path, "r") as f:
         vocab = [line.strip() for line in f if line.strip()]
     return vocab
 
-# ====== Step 2: Custom Dataset ======
+# Step 2: Custom Dataset ======
 class SMILESDataset(Dataset):
     def __init__(self, smiles_list, tokenizer, max_length=128):
         self.tokenizer = tokenizer
@@ -35,7 +35,7 @@ class SMILESDataset(Dataset):
         labels = self.data[idx][1:].clone().long()
         return {"input_ids": input_ids, "labels": labels}
 
-# ====== Step 3: LightningModule for Llama2 ======
+# Step 3: LightningModule for Llama2 ======
 class Llama2FineTuner(pl.LightningModule):
     def __init__(self, config, tokenizer, vocab_size, learning_rate=5e-5):
         super().__init__()
@@ -53,7 +53,7 @@ class Llama2FineTuner(pl.LightningModule):
 
         logits = self.lm_head(hidden)  # logits: [batch_size, seq_len, vocab_size]
 
-        # 打印 logits 的形状，确认它是 [batch_size, seq_len, vocab_size]
+        # [batch_size, seq_len, vocab_size]
         print(f"logits shape after lm_head: {logits.shape}")
 
         return logits
@@ -64,19 +64,15 @@ class Llama2FineTuner(pl.LightningModule):
 
         logits = self(input_ids)        # logits: [batch, seq, vocab]
 
-        # 打印 logits 和 labels 的形状，检查是否一致
         print(f"logits shape: {logits.shape}")  # [batch_size, seq_len, vocab_size]
         print(f"labels shape: {labels.shape}")  # [batch_size, seq_len]
 
-        # 展平 logits 和 labels，使它们的形状一致
         logits = logits.view(-1, logits.size(-1))  # [batch * seq, vocab]
         labels = labels.view(-1)                   # [batch * seq]
 
-        # 再次打印展平后的形状
         print(f"flattened logits shape: {logits.shape}")  # [batch * seq, vocab]
         print(f"flattened labels shape: {labels.shape}")  # [batch * seq]
 
-        # 计算损失
         loss = self.loss_fn(logits, labels)
         self.log("train_loss", loss)
         return loss
@@ -86,7 +82,7 @@ class Llama2FineTuner(pl.LightningModule):
     def configure_optimizers(self):
         return torch.optim.AdamW(self.parameters(), lr=self.learning_rate)
 
-# ====== Step 4: Load data, vocab, tokenizer ======
+# Step 4: Load data, vocab, tokenizer ======
 # Paths (modify as needed)
 vocab_path = "./enamine_real_vocabulary.txt"
 data_path = "./datasetB.csv"
@@ -109,12 +105,12 @@ dataloader = DataLoader(
     collate_fn=default_collate
 )
 
-# ====== Step 5: Build model from scratch ======
+# Step 5: Build model from scratch ======
 config = define_llama2_configuration(vocabulary_size=len(vocab), n_embd=320, n_layer=4, n_head=16)
 model = Llama2FineTuner(config=config, tokenizer=tokenizer, vocab_size=len(vocab), learning_rate=5e-5)
 
 
-# ====== Step 6: Start training ======
+# Step 6: Start training ======
 trainer = pl.Trainer(
     max_epochs=50,
     gradient_clip_val=1.0,
@@ -140,7 +136,7 @@ trainer.fit(model, dataloader)
 # Save final model checkpoint
 trainer.save_checkpoint(ckpt_output)
 
-# ====== Step 7: Create Reinforcement Learning Compatible Actor ======
+# Step 7: Create Reinforcement Learning Compatible Actor ======
 from llama2 import create_llama2_actor  # Ensure this function is imported if not already
 
 # Create actor for Reinvent framework

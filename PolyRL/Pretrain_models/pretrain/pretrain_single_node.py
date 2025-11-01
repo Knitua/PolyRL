@@ -56,7 +56,6 @@ def main(cfg: "DictConfig"):
         special_tokens=cfg.get("special_tokens", []),
     )'''
     vocabulary = Vocabulary()
-    # 使用Vocabulary.load直接加载自定义词表文件（例如：enamine_real_vocabulary.txt）
     vocabulary = Vocabulary.load(cfg.custom_vocabulary_path, tokenizer=tokenizer_options[cfg.tokenizer]())
     print(vocabulary)
     save_path = Path(cfg.model_log_dir) / "vocabulary.ckpt"
