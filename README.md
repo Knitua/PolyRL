@@ -2,6 +2,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Acellera/PolyRL-open/blob/main/LICENSE)
 [![python](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11-blue)](https://www.python.org/downloads/)
+[![Published in Digital Discovery 2026](https://img.shields.io/badge/Published%20in-Digital%20Discovery%202026-blue)](https://pubs.rsc.org/en/content/articlelanding/2026/dd/d5dd00272a)
 
 ---
 
@@ -269,3 +270,22 @@ We sincerely thank the authors of these works for their contributions to the com
 [6]: https://arxiv.org/pdf/2206.12411.pdf
 [7]: https://arxiv.org/abs/2007.03328
 [8]: https://arxiv.org/abs/2305.18290
+
+---
+
+## Citation
+
+If you find this project useful, please cite our paper:
+
+```bibtex
+@article{li2026polyrl,
+  title   = {PolyRL: reinforcement learning-guided polymer generation for multi-objective polymer discovery},
+  author  = {Li, Wentao and Li, Yidan and Lei, Qian and Wang, Zhen and Wang, Xun},
+  journal = {Digital Discovery},
+  volume  = {5},
+  number  = {1},
+  pages   = {266--276},
+  year    = {2026},
+  publisher = {Royal Society of Chemistry}
+}
+```
